@@ -7,12 +7,11 @@ import { ValidationErrorCodes } from "./constants/validation-error-codes";
 import { EnvironmentVariables } from "../env/env.configuration";
 import { ErrorCodes } from "./constants/error-codes";
 import { useContainer } from "class-validator";
+import * as mongoose from "mongoose";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.getHttpAdapter().getInstance().set('etag', false);
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-  // app.useGlobalInterceptors(new ResponseTransformInterceptor());
   app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
   app.useGlobalPipes(
     new ValidationPipe({
@@ -27,6 +26,7 @@ async function bootstrap() {
   app.enableCors();
 
   await app.listen(EnvironmentVariables().port);
+  mongoose.set("debug", Boolean(EnvironmentVariables().mongodb.mongooseDebug));
 }
 
 bootstrap();
@@ -39,9 +39,6 @@ bootstrap();
 function ValidationErrorsFormat(
   validationErrors: ValidationError[]
 ): InvalidParamsException {
-  console.log("ValidationErrors", JSON.stringify(validationErrors));
-  console.log("ValidationErrors", validationErrors);
-
   const myValidationErrors: { [key: string]: any } = {};
 
   // Recursion using inner function to handle nested objects
