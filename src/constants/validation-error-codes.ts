@@ -2,56 +2,96 @@ export class ValidationErrorCodeModel {
   // key: string;
   en: string;
   ar: string;
+  code?: string;
+  message?: {
+    en: string;
+    ar: string;
+  };
 }
 
 export const ValidationErrorCodes = {
   isNumber: {
-    // key: '',
-    en: 'must be a number',
-    ar: 'يجب ان يكون رقم',
+    code: "IS_NUMBER",
+    message: {
+      en: "must be a number",
+      ar: "يجب ان يكون رقم",
+    },
   },
   isLength: {
-    // key: '',
-    en: 'wrong number of chars',
-    ar: 'عدد الحروف غير صحيح',
+    code: "IS_LENGTH",
+    message: {
+      en: "wrong number of chars",
+      ar: "عدد الحروف غير صحيح",
+    },
   },
   arrayMaxSize: {
-    en: 'incorrect count of elements',
-    ar: 'عدد العناصر غير صحيح',
+    code: "ARRAY_MAX_SIZE",
+    message: {
+      en: "incorrect count of elements",
+      ar: "عدد العناصر غير صحيح",
+    },
   },
   notExists: {
-    // key: '',
-    en: 'value not exists',
-    ar: 'القيمه غير موجوده',
+    code: "NOT_EXISTS",
+    message: {
+      en: "value not exists",
+      ar: "القيمه غير موجوده",
+    },
   },
   isMongoId: {
-    // key: '',
-    en: 'must be valid mongo object id',
-    ar: 'يجب ان يكون قيمه مونجو صحيحه',
+    code: "IS_MONGO_ID",
+    message: {
+      en: "must be valid mongo object id",
+      ar: "يجب ان يكون قيمه مونجو صحيحه",
+    },
   },
   isPositive: {
-    // key: '',
-    en: 'should not be empty',
-    ar: 'يجب الا يكون فارغ',
+    code: "IS_POSITIVE",
+    message: {
+      en: "should not be empty",
+      ar: "يجب الا يكون فارغ",
+    },
   },
   isExists: {
-    en: 'value already exists',
-    ar: 'القيمه موجود بالفعل',
+    code: "IS_EXISTS",
+    message: {
+      en: "value already exists",
+      ar: "القيمه موجود بالفعل",
+    },
   },
   isBoolean: {
-    en: 'must be a boolean value',
-    ar: 'يجب ان يكون [true, false]',
+    code: "IS_BOOLEAN",
+    message: {
+      en: "must be a boolean value",
+      ar: "يجب ان يكون [true, false]",
+    },
   },
   isEmail: {
-    en: 'Email format is not correct',
-    ar: 'الايميل غير صحيح',
+    code: "IS_EMAIL",
+    message: {
+      en: "Email format is not correct",
+      ar: "الايميل غير صحيح",
+    },
   },
   emailIsExists: {
-    en: 'Email have been used before',
-    ar: 'الايميل مستخدم من قبل مستخدم اخر',
+    code: "EMAIL_IS_EXISTS",
+    message: {
+      en: "Email have been used before",
+      ar: "الايميل مستخدم من قبل مستخدم اخر",
+    },
   },
   invalidEmail: {
-    en: 'Invalid Email',
-    ar: 'الايميل غير صالح',
-  }
+    code: "INVALID_EMAIL",
+    message: {
+      en: "Invalid Email",
+      ar: "الايميل غير صالح",
+    },
+  },
+  INVALID_CREDENTIALS: {
+    code: "INVALID_CREDENTIALS",
+    message: {
+      en: "Invalid credentials",
+      ar: "خطآ في بيانات الدخول",
+    },
+  },
 };
