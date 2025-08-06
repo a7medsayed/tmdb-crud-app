@@ -9,6 +9,12 @@ A complete NestJS-based REST API to manage and sync movie data with TMDB. Includ
 
 🧾 MongoDB for persistent storage
 
+🧾 Add to favorite list
+
+🧾 Add to watch list
+
+✅ rate movie
+
 🔐 JWT-based user authentication
 
 ⚡ Redis-based caching
@@ -16,6 +22,22 @@ A complete NestJS-based REST API to manage and sync movie data with TMDB. Includ
 🐳 Docker + Docker Compose support
 
 📑 Auto-generated Swagger documentation
+
+
+🔄 Sync Movies from TMDB
+To sync the latest movies from TMDB, follow these steps:
+
+Login as Admin
+Use the following admin credentials to authenticate and obtain a JWT token:
+
+json
+Copy
+Edit
+{
+  "email": "ahmedsayed@gmail.com",
+  "password": "12345"
+}
+
 
 📦 Environment Variables
 Set these variables in a .env file (for local development) or rely on Docker Compose to inject them.
@@ -117,23 +139,18 @@ Connect to MongoDB using the connection string
 
 Expose the API on: http://localhost:8080
 
-📘 Swagger API Docs
+📘 
+# Swagger API Docs
 After the app is running, view interactive documentation at:
 
 http://localhost:8080/docs
 
 
 
-📂
-#  Project Structure
+📫 
+# Postman Collection
 
-bash
-Copy
-Edit
-tmdb-api/
-├── src/                 # NestJS source code
-├── Dockerfile
-├── docker-compose.yml
-├── .env                 # Environment variables
-├── run.sh               # Start script
-└── README.md
+You can test the API using the official Postman collection:
+
+👉 [Click here to open Postman Collection](https://lively-flare-406131.postman.co/workspace/New-Team-Workspace~24785804-3482-4974-980d-63f042490384/collection/30527112-65c09332-c8db-4d8e-8cb8-0f6418aaeea8?action=share&creator=30527112&active-environment=30527112-4d5e9cd9-1127-4354-a7af-3ad80cbe33c7)
+
