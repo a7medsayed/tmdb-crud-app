@@ -1,45 +1,125 @@
-# 🎬 TMDB Movie API
+🎬 TMDB Movie API
+A complete NestJS-based REST API to manage and sync movie data with TMDB. Includes features like watchlists, user ratings, pagination, Redis caching, MongoDB storage, and JWT authentication—all wrapped in a Dockerized environment.
 
-A production-ready NestJS REST API for managing movie data with TMDB synchronization. Features watchlists, user ratings, authentication, and high-performance caching.
+✅ Features
+🔄 Sync with TMDB API
 
-## ✨ Features
+🧾 MongoDB for persistent storage
 
-- **TMDB API Integration** - Sync with The Movie Database
-- **MongoDB** - Persistent data storage
-- **JWT Authentication** - Secure user management
-- **Redis Caching** - Improved performance for frequent requests
-- **Dockerized** - Easy deployment with Docker Compose
-- **Swagger Documentation** - Interactive API documentation
-- **Pagination Support** - Efficient data retrieval
-- **TypeScript** - Strongly typed codebase
-- **Modular Architecture** - Clean and maintainable structure
+🔐 JWT-based user authentication
 
-## 🛠️ Setup
+⚡ Redis-based caching
 
-### Prerequisites
-- Docker and Docker Compose
-- Node.js (if running locally)
-- TMDB API key (free tier available)
+🐳 Docker + Docker Compose support
 
-### Environment Variables
+📑 Auto-generated Swagger documentation
 
-Create a `.env` file in the root directory:
+📦 Environment Variables
+Set these variables in a .env file (for local development) or rely on Docker Compose to inject them.
 
-```env
+.env (Sample)
+env
+Copy
+Edit
+# App
 PORT=3000
 
 # MongoDB
-MONGODB_CONNECTION_URL=mongodb://localhost:27017/tmdb
+MONGODB_CONNECTION_URL=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/tmdb
 MONGOOSE_DEBUG=true
 
 # TMDB
 TMDB_URL=https://api.themoviedb.org/3
-TMDB_KEY=your_tmdb_api_key_here
+TMDB_KEY=your_tmdb_api_key
 
-# JWT Auth
-JWT_SECRET=your_secure_jwt_secret_here
+# JWT
+JWT_SECRET=your_jwt_secret
 JWT_EXPIRESIN=10h
 
 # Redis
 REDIS_HOST=redis
 REDIS_PORT=6379
+🔒 Do not commit .env to version control.
+
+🐳 Docker Compose Setup
+yaml
+Copy
+Edit
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:3000"
+    environment:
+      - NODE_ENV=prod
+      - PORT=3000
+      - MONGODB_CONNECTION_URL=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/tmdb
+      - MONGOOSE_DEBUG=true
+      - TMDB_URL=https://api.themoviedb.org/3
+      - TMDB_KEY=your_tmdb_api_key
+      - JWT_SECRET=your_jwt_secret
+      - JWT_EXPIRESIN=10h
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    command: ./run.sh
+
+  redis:
+    image: redis:7
+    restart: always
+🐋 Dockerfile
+dockerfile
+Copy
+Edit
+FROM node:18
+
+WORKDIR /app
+
+# Install dependencies
+COPY package.json ./
+RUN npm install --force
+
+# Copy app source
+COPY . .
+
+RUN npm run build
+RUN chmod +x run.sh
+
+EXPOSE 3000
+
+CMD ["./run.sh"]
+🚀 How to Run the App
+With Docker Compose
+bash
+Copy
+Edit
+docker-compose up --build
+This will:
+
+Build the NestJS app
+
+Start Redis
+
+Connect to MongoDB using the connection string
+
+Expose the API on: http://localhost:8080
+
+📘 Swagger API Docs
+After the app is running, view interactive documentation at:
+
+http://localhost:8080/docs
+
+📂 Project Structure
+bash
+Copy
+Edit
+tmdb-api/
+├── src/                 # NestJS source code
+├── Dockerfile
+├── docker-compose.yml
+├── .env                 # Environment variables
+├── run.sh               # Start script
+└── README.md
