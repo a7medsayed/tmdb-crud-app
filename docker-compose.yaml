@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - NODE_ENV=staging
+      - NODE_ENV=prod
       - PORT=8080
       - CACHE_HOST=redis
       - CACHE_PORT=6379
