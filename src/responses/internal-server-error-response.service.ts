@@ -1,7 +1,7 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { ResponseModel } from './response';
-import { ResponseErrors } from './constants';
-import { ErrorCodes } from '../constants/error-codes';
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { ResponseModel } from "./response";
+import { ResponseErrors } from "./constants";
+import { ErrorCodes } from "../constants/error-codes";
 
 @Injectable()
 export class InternalServerErrorResponse extends ResponseModel<any> {
@@ -11,7 +11,7 @@ export class InternalServerErrorResponse extends ResponseModel<any> {
       false,
       ResponseErrors.INTERNAL_SERVER_ERROR,
       null,
-      feedback || ErrorCodes.UNEXPECTED_ERROR,
+      feedback || ErrorCodes.UNEXPECTED_ERROR
     );
   }
 }

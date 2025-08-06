@@ -39,4 +39,26 @@ export class TmdbService {
       )
     );
   }
+
+  async listGenres(): Promise<any> {
+    const pathUrl = PathUrl.listMovieGenres;
+    const requestConfig: AxiosRequestConfig = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    };
+    const url = encodeURI(`${this.baseUrl}${pathUrl}?api_key=${this.apiKey}`);
+    const httpPromiseResponse = this.httpService.get(url, requestConfig);
+    return await firstValueFrom(
+      httpPromiseResponse.pipe(
+        map((response) => {
+          return JSON.parse(JSON.stringify(response?.data));
+        }),
+        catchError((e) => {
+          console.log(e.response);
+          throw new HttpException(e?.response?.data, e?.response?.status);
+        })
+      )
+    );
+  }
 }

@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=prod
+      - PORT=8080
+      - CACHE_HOST=redis
+      - CACHE_PORT=6379
+    depends_on:
+      - redis
+    command: ./run.sh
+
+  redis:
+    image: redis:7
+    restart: always

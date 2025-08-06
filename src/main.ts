@@ -7,12 +7,12 @@ import { ValidationErrorCodes } from "./constants/validation-error-codes";
 import { EnvironmentVariables } from "../env/env.configuration";
 import { ErrorCodes } from "./constants/error-codes";
 import { useContainer } from "class-validator";
+import * as mongoose from "mongoose";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.getHttpAdapter().getInstance().set('etag', false);
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-  // app.useGlobalInterceptors(new ResponseTransformInterceptor());
   app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
   app.useGlobalPipes(
     new ValidationPipe({
@@ -21,12 +21,25 @@ async function bootstrap() {
       },
     })
   );
+  app.useGlobalGuards();
   /**
    * Cors
    */
   app.enableCors();
 
+  // ✅ Swagger setup
+  const config = new DocumentBuilder()
+    .setTitle("Movie App API")
+    .setDescription("API documentation for the Movie App")
+    .setVersion("1.0")
+    .addBearerAuth() // for JWT auth
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup("docs", app, document); // Accessible at /docs
+
   await app.listen(EnvironmentVariables().port);
+  mongoose.set("debug", Boolean(EnvironmentVariables().mongodb.mongooseDebug));
 }
 
 bootstrap();
@@ -39,9 +52,6 @@ bootstrap();
 function ValidationErrorsFormat(
   validationErrors: ValidationError[]
 ): InvalidParamsException {
-  console.log("ValidationErrors", JSON.stringify(validationErrors));
-  console.log("ValidationErrors", validationErrors);
-
   const myValidationErrors: { [key: string]: any } = {};
 
   // Recursion using inner function to handle nested objects
