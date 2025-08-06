@@ -31,7 +31,7 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    delete createdUser.password; // Remove password from the response
+    delete createdUser["_doc"].password; // Remove password from the response
     const userPayload = { email: createdUser.email, sub: createdUser._id };
 
     const accessToken = this.jwtService.sign(userPayload, {
