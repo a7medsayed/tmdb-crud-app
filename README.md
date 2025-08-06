@@ -1,73 +1,139 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+🎬 
+# TMDB Movie API
+A complete NestJS-based REST API to manage and sync movie data with TMDB. Includes features like watchlists, user ratings, pagination, Redis caching, MongoDB storage, and JWT authentication—all wrapped in a Dockerized environment.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+✅ 
+# Features
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+🔄 Sync with TMDB API
 
-## Description
+🧾 MongoDB for persistent storage
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+🔐 JWT-based user authentication
 
-## Installation
+⚡ Redis-based caching
 
-```bash
-$ npm install
-```
+🐳 Docker + Docker Compose support
 
-## Running the app
+📑 Auto-generated Swagger documentation
 
-```bash
-# development
-$ npm run start
+📦 Environment Variables
+Set these variables in a .env file (for local development) or rely on Docker Compose to inject them.
 
-# watch mode
-$ npm run start:dev
+.env (Sample)
+env
+Copy
+Edit
+# App
+PORT=3000
 
-# production mode
-$ npm run start:prod
-```
+# MongoDB
+MONGODB_CONNECTION_URL=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/tmdb
+MONGOOSE_DEBUG=true
 
-## Test
+# TMDB
+TMDB_URL=https://api.themoviedb.org/3
+TMDB_KEY=your_tmdb_api_key
 
-```bash
-# unit tests
-$ npm run test
+# JWT
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRESIN=10h
 
-# e2e tests
-$ npm run test:e2e
+# Redis
+REDIS_HOST=redis
+REDIS_PORT=6379
+🔒 Do not commit .env to version control.
 
-# test coverage
-$ npm run test:cov
-```
 
-## Support
+🐳 
+# Docker Compose Setup
+yaml
+Copy
+Edit
+version: "3.8"
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+services:
+  app:
+    build: .
+    ports:
+      - "8080:3000"
+    environment:
+      - NODE_ENV=prod
+      - PORT=3000
+      - MONGODB_CONNECTION_URL=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/tmdb
+      - MONGOOSE_DEBUG=true
+      - TMDB_URL=https://api.themoviedb.org/3
+      - TMDB_KEY=your_tmdb_api_key
+      - JWT_SECRET=your_jwt_secret
+      - JWT_EXPIRESIN=10h
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    command: ./run.sh
 
-## Stay in touch
+  redis:
+    image: redis:7
+    restart: always
+🐋 Dockerfile
+dockerfile
+Copy
+Edit
+FROM node:18
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+WORKDIR /app
 
-## License
+# Install dependencies
+COPY package.json ./
+RUN npm install --force
 
-Nest is [MIT licensed](LICENSE).
+# Copy app source
+COPY . .
+
+RUN npm run build
+RUN chmod +x run.sh
+
+EXPOSE 3000
+
+CMD ["./run.sh"]
+🚀 How to Run the App
+With Docker Compose
+bash
+Copy
+Edit
+
+
+# Run
+docker-compose up --build
+
+
+This will:
+
+Build the NestJS app
+
+Start Redis
+
+Connect to MongoDB using the connection string
+
+Expose the API on: http://localhost:8080
+
+📘 Swagger API Docs
+After the app is running, view interactive documentation at:
+
+http://localhost:8080/docs
+
+
+
+📂
+#  Project Structure
+
+bash
+Copy
+Edit
+tmdb-api/
+├── src/                 # NestJS source code
+├── Dockerfile
+├── docker-compose.yml
+├── .env                 # Environment variables
+├── run.sh               # Start script
+└── README.md

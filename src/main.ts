@@ -8,6 +8,7 @@ import { EnvironmentVariables } from "../env/env.configuration";
 import { ErrorCodes } from "./constants/error-codes";
 import { useContainer } from "class-validator";
 import * as mongoose from "mongoose";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,11 +21,22 @@ async function bootstrap() {
       },
     })
   );
-  app.useGlobalGuards()
+  app.useGlobalGuards();
   /**
    * Cors
    */
   app.enableCors();
+
+  // ✅ Swagger setup
+  const config = new DocumentBuilder()
+    .setTitle("Movie App API")
+    .setDescription("API documentation for the Movie App")
+    .setVersion("1.0")
+    .addBearerAuth() // for JWT auth
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup("docs", app, document); // Accessible at /docs
 
   await app.listen(EnvironmentVariables().port);
   mongoose.set("debug", Boolean(EnvironmentVariables().mongodb.mongooseDebug));

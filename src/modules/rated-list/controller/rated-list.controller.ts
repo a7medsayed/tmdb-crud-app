@@ -5,11 +5,17 @@ import { RatedlistService } from "../service/rated-list.service";
 import { Types } from "mongoose";
 import { RateMovieDto } from "../dto/rate-movie.dto";
 
+import { ApiTags, ApiOperation, ApiBody } from "@nestjs/swagger";
+
+@ApiTags("user rated list")
 @Controller("ratedlist")
 @UseGuards(JwtAuthGuard)
 export class RatedlistController {
   constructor(private readonly ratedlistService: RatedlistService) {}
 
+  @ApiOperation({ summary: "Rate a Movie" })
+  @ApiBody({ type: RateMovieDto })
+  @UseGuards(JwtAuthGuard)
   @Post("rate")
   async addToRatedlist(@Body() payload: RateMovieDto, @Req() req: Request) {
     const userId = req["user"].sub || req["user"]._id;
@@ -20,6 +26,8 @@ export class RatedlistController {
     );
   }
 
+  @ApiOperation({ summary: "Get User Rated List" })
+  @UseGuards(JwtAuthGuard)
   @Get("list")
   async getRatedlist(@Req() req: Request) {
     const userId = req["user"].sub || req["user"]._id;
