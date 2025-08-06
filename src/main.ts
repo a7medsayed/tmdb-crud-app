@@ -20,6 +20,7 @@ async function bootstrap() {
       },
     })
   );
+  app.useGlobalGuards()
   /**
    * Cors
    */

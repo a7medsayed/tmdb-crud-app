@@ -10,6 +10,7 @@ import { MoviesModule } from "./modules/movie/movie.module";
 import { FavoritelistModule } from "./modules/favorite-list/favorite-list.module";
 import { WatchlistModule } from "./modules/whatch-list/watch-list.module";
 import { RatedlistModule } from "./modules/rated-list/rated-list.module";
+import { AdminUserModule } from "./modules/admin-user/admin-user.module";
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { RatedlistModule } from "./modules/rated-list/rated-list.module";
     FavoritelistModule,
     WatchlistModule,
     RatedlistModule,
+    AdminUserModule
   ],
   controllers: [AppController],
   providers: [],
