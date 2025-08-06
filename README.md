@@ -36,8 +36,7 @@ Use the following admin credentials to authenticate and obtain a JWT token:
   "password": "12345"
 }
 
-# Movies list genre filter
- genre list
+# Movies list genre filter ( allowed values to filter movies by genres)
  [
   'Action',
   'Adventure',
