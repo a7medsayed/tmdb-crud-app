@@ -11,9 +11,10 @@ import { JwtAuthGuard } from "../../user/auth/jwt-auth.guard";
 import { Request } from "express";
 import { WatchlistService } from "../service/watch-list.service";
 import { Types } from "mongoose";
-import { ApiTags, ApiOperation } from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 import { GetWatchlistQueryDto } from "../dto/get-watchlist.dto";
 
+@ApiBearerAuth()
 @ApiTags("user watch list")
 @Controller("watchlist")
 @UseGuards(JwtAuthGuard)
@@ -22,7 +23,6 @@ export class WatchlistController {
 
   @ApiOperation({ summary: "Add Movie to Watchlist" })
   @ApiTags("add")
-  @ApiOperation({ summary: "Add Movie to Watchlist" })
   @Post("add")
   async addToWatchlist(@Body("movieId") movieId: string, @Req() req: Request) {
     const userId = req["user"].sub || req["user"]._id;
@@ -34,7 +34,6 @@ export class WatchlistController {
 
   @ApiOperation({ summary: "Get User Watchlist" })
   @ApiTags("list")
-  @ApiOperation({ summary: "List User Watchlist" })
   @Get("list")
   async getWatchlist(
     @Req() req: Request,

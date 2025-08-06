@@ -5,7 +5,7 @@ import { SuccessResponse } from "./responses/success-response.service";
 export class AppController {
   constructor() {}
 
-  @Get("")
+  @Get("health-check")
   async CheckHealthy() {
     return new SuccessResponse({ data: "Healthy" });
   }
