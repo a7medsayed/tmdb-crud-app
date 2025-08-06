@@ -11,6 +11,8 @@ import { FavoritelistModule } from "./modules/favorite-list/favorite-list.module
 import { WatchlistModule } from "./modules/whatch-list/watch-list.module";
 import { RatedlistModule } from "./modules/rated-list/rated-list.module";
 import { AdminUserModule } from "./modules/admin-user/admin-user.module";
+import { CacheModule } from "@nestjs/cache-manager";
+import * as redisStore from "cache-manager-ioredis";
 
 @Module({
   imports: [
@@ -18,6 +20,13 @@ import { AdminUserModule } from "./modules/admin-user/admin-user.module";
       isGlobal: true,
       envFilePath: `${process.cwd()}/env/${process.env.NODE_ENV}.env`,
       load: [EnvironmentVariables],
+    }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 6000, // Cache time-to-live in seconds
+      store: redisStore,
+      host: EnvironmentVariables().redis.host || "redis",
+      port: EnvironmentVariables().redis.port || 6379,
     }),
     MongooseModule.forRoot(EnvironmentVariables().mongodb.connectionUrl, {
       connectionFactory: (nativeMongooseConnection) => {
@@ -35,7 +44,7 @@ import { AdminUserModule } from "./modules/admin-user/admin-user.module";
     FavoritelistModule,
     WatchlistModule,
     RatedlistModule,
-    AdminUserModule
+    AdminUserModule,
   ],
   controllers: [AppController],
   providers: [],
