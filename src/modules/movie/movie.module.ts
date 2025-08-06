@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import {
   Movie,
@@ -11,6 +11,7 @@ import { TmdbIntegrationModule } from "../third-party-integrations/tmdb-movies/t
 import { AdminController } from "./admin/movie-admin.controller";
 import { AdminService } from "./admin/movie-admin.service";
 import { MovieController } from "./controller/movie.controller";
+import { RatedlistModule } from "../rated-list/rated-list.module";
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MovieController } from "./controller/movie.controller";
       },
     ]),
     TmdbIntegrationModule,
+    forwardRef(() => RatedlistModule),
   ],
   controllers: [AdminController, MovieController],
   providers: [MovieRepository, MovieService, AdminService],
