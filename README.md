@@ -109,7 +109,9 @@ After running, access the API documentation here:
 bash
 Copy
 Edit
-http://localhost:8080/api
+http://localhost:8080/docs
+
+
 📂 Project Structure
 arduino
 Copy
