@@ -19,7 +19,7 @@ export class AuthService {
 
   async signUp(
     payload: SignUpDto
-  ): Promise<{ user: User; accessToken: string }> {
+  ): Promise<{ user: Partial<User>; accessToken: string }> {
     const user = await this.userService.findOne(payload.email);
     if (user) {
       throw new BadRequestException(ValidationErrorCodes.emailIsExists);
@@ -31,17 +31,25 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    delete createdUser["_doc"].password; // Remove password from the response
     const userPayload = { email: createdUser.email, sub: createdUser._id };
 
     const accessToken = this.jwtService.sign(userPayload, {
       expiresIn: EnvironmentVariables().jwt.expiresIn,
       secret: EnvironmentVariables().jwt.secret,
     });
-    return { accessToken, user: createdUser };
+    return {
+      accessToken,
+      user: {
+        email: createdUser.email,
+        _id: createdUser._id,
+        name: createdUser.name,
+      },
+    };
   }
 
-  async signIn(payload: SignInDto): Promise<{ accessToken: string }> {
+  async signIn(
+    payload: SignInDto
+  ): Promise<{ accessToken: string; user: Partial<User> }> {
     const user = await this.userService.findOne(payload.email);
     if (user && (await bcrypt.compare(payload.password, user.password))) {
       const userPayload = { email: user.email, sub: user._id };
@@ -50,6 +58,7 @@ export class AuthService {
           expiresIn: EnvironmentVariables().jwt.expiresIn,
           secret: EnvironmentVariables().jwt.secret,
         }),
+        user: { email: user.email, _id: user._id, name: user.name },
       };
     }
     throw new BadRequestException(ValidationErrorCodes.INVALID_CREDENTIALS);
