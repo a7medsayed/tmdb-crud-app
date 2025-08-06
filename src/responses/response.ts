@@ -18,11 +18,11 @@ export class ResponseModel<T> implements IResponseModel<T> {
     status: boolean,
     error: string,
     data?: any,
-    feedback?: any,
+    feedback?: any
   ) {
     this.statusCode = statusCode;
     this.status = status;
-    this.error = error || '';
+    this.error = error || "";
     this.data = data || {};
     this.feedback = feedback || {};
   }
