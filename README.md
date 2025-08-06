@@ -1,7 +1,9 @@
 🎬 TMDB Movie API
+
 A complete NestJS-based REST API to manage and sync movie data with TMDB. Includes features like watchlists, user ratings, pagination, Redis caching, MongoDB storage, and JWT authentication—all wrapped in a Dockerized environment.
 
 ✅ Features
+
 🔄 Sync with TMDB API
 
 🧾 MongoDB for persistent storage
@@ -96,7 +98,10 @@ With Docker Compose
 bash
 Copy
 Edit
+
+
 docker-compose up --build
+
 This will:
 
 Build the NestJS app
