@@ -12,13 +12,13 @@ import { Request } from "express";
 import { FavoritelistService } from "../service/favorite-list.service";
 import { Types } from "mongoose";
 
-import { ApiTags, ApiOperation, ApiBody } from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiBody, ApiBearerAuth } from "@nestjs/swagger";
 import { GetFavoritelistQueryDto } from "../dto/get-favoritelist.dto";
 
 @ApiTags("user favorite list")
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller("favoritelist")
-@UseGuards(JwtAuthGuard)
 export class FavoritelistController {
   constructor(private readonly favoritelistService: FavoritelistService) {}
 
@@ -37,7 +37,6 @@ export class FavoritelistController {
   }
   @ApiOperation({ summary: "Get User Favorite List" })
   @ApiTags("list")
-  @ApiOperation({ summary: "List User Favorite Movies" })
   @Get("list")
   async getFavoritelist(
     @Req() req: Request,

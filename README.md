@@ -24,19 +24,40 @@ A complete NestJS-based REST API to manage and sync movie data with TMDB. Includ
 📑 Auto-generated Swagger documentation
 
 
-🔄 Sync Movies from TMDB
+🔄 
+# Sync Movies from TMDB
 To sync the latest movies from TMDB, follow these steps:
 
 Login as Admin
 Use the following admin credentials to authenticate and obtain a JWT token:
 
-json
-Copy
-Edit
 {
   "email": "ahmedsayed@gmail.com",
   "password": "12345"
 }
+
+# Movies list genre filter ( allowed values to filter movies by genres)
+ [
+  'Action',
+  'Adventure',
+  'Animation',
+  'Comedy',
+  'Crime',
+  'Documentary',
+  'Drama',
+  'Family',
+  'Fantasy',
+  'History',
+  'Horror',
+  'Music',
+  'Mystery',
+  'Romance',
+  'ScienceFiction',
+  'TVMovie',
+  'Thriller',
+  'War',
+  'Western',
+];
 
 
 📦 Environment Variables
