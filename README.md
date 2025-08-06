@@ -31,9 +31,6 @@ To sync the latest movies from TMDB, follow these steps:
 Login as Admin
 Use the following admin credentials to authenticate and obtain a JWT token:
 
-json
-Copy
-Edit
 {
   "email": "ahmedsayed@gmail.com",
   "password": "12345"
