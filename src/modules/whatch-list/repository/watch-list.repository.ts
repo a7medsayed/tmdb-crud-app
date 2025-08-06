@@ -13,7 +13,7 @@ export class WatchlistRepository {
     private watchlistModel: Model<WatchlistDocument>
   ) {}
 
-  async addToWatchlist(userId: Types.ObjectId, movieId: number) {
+  async addToWatchlist(userId: Types.ObjectId, movieId: Types.ObjectId) {
     return this.watchlistModel.updateOne(
       { user: userId, movie: movieId },
       { $set: { user: userId, movie: movieId } },

@@ -6,7 +6,7 @@ import { Movie, MovieDocument } from "../schema/movie.schema";
 @Injectable()
 export class MovieRepository {
   constructor(
-    @InjectModel(Movie.name) private movieModel: Model<MovieDocument>
+    @InjectModel(Movie.name) private movieModel: Model<MovieDocument>,
   ) {}
 
   async createMany(movies: Partial<Movie>[]): Promise<MovieDocument[]> {

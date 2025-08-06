@@ -1,13 +1,18 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { MovieRepository } from "../repository/movie.repository";
 import { Movie } from "../schema/movie.schema";
 import { ListMoviesDto } from "../dto/list-movies.dto";
 import { MovieGenre } from "../enum/genre.enum";
 import { Types } from "mongoose";
+import { RatedlistService } from "src/modules/rated-list/service/rated-list.service";
 
 @Injectable()
 export class MovieService {
-  constructor(private readonly movieRepository: MovieRepository) {}
+  constructor(
+    private readonly movieRepository: MovieRepository,
+    @Inject(forwardRef(() => RatedlistService))
+    private readonly rateListService: RatedlistService
+  ) {}
 
   async createManyIfNotExists(movies: Partial<Movie>[]): Promise<number> {
     const ids = movies.map((m) => m.id);
@@ -83,11 +88,18 @@ export class MovieService {
       sort["createdAt"] = -1;
     }
 
-    return this.movieRepository.findWithPagination(_query, {
+    const result = await this.movieRepository.findWithPagination(_query, {
       page: query.page,
       limit: query.limit,
       sort,
     });
+
+    for (const doc of result.docs) {
+      doc["_doc"]["average_rate"] =
+        await this.rateListService.getMovieAverageRate(doc._id);
+    }
+
+    return result;
   }
 
   async findByObjectIds(

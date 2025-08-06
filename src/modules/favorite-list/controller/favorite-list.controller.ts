@@ -15,7 +15,10 @@ export class FavoritelistController {
     @Req() req: Request
   ) {
     const userId = req["user"].sub || req["user"]._id;
-    return this.favoritelistService.addToFavoritelist(userId, movieId);
+    return this.favoritelistService.addToFavoritelist(
+      userId,
+      new Types.ObjectId(movieId)
+    );
   }
 
   @Get("list")

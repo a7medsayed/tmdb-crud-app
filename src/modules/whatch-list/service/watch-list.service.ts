@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Type } from "@nestjs/common";
 import { Types } from "mongoose";
 import { WatchlistRepository } from "../repository/watch-list.repository";
 import { MovieService } from "src/modules/movie/service/movie.service";
@@ -10,7 +10,7 @@ export class WatchlistService {
     private readonly movieService: MovieService
   ) {}
 
-  async addToWatchlist(userId: Types.ObjectId, movieId: number) {
+  async addToWatchlist(userId: Types.ObjectId, movieId: Types.ObjectId) {
     await this.watchlistRepository.addToWatchlist(userId, movieId);
     return { success: true };
   }

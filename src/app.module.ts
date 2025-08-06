@@ -6,10 +6,10 @@ import { TmdbIntegrationModule } from "./modules/third-party-integrations/tmdb-m
 import { MongooseModule } from "@nestjs/mongoose";
 import { UserModule } from "./modules/user/user.module";
 import { AuthModule } from "./modules/user/auth/auth.module";
-import { JwtModule } from "@nestjs/jwt";
 import { MoviesModule } from "./modules/movie/movie.module";
 import { FavoritelistModule } from "./modules/favorite-list/favorite-list.module";
 import { WatchlistModule } from "./modules/whatch-list/watch-list.module";
+import { RatedlistModule } from "./modules/rated-list/rated-list.module";
 
 @Module({
   imports: [
@@ -33,6 +33,7 @@ import { WatchlistModule } from "./modules/whatch-list/watch-list.module";
     MoviesModule,
     FavoritelistModule,
     WatchlistModule,
+    RatedlistModule,
   ],
   controllers: [AppController],
   providers: [],
