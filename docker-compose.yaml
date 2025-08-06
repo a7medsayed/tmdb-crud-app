@@ -8,4 +8,12 @@ services:
     environment:
       - NODE_ENV=prod
       - PORT=8080
+      - CACHE_HOST=redis
+      - CACHE_PORT=6379
+    depends_on:
+      - redis
     command: ./run.sh
+
+  redis:
+    image: redis:7
+    restart: always

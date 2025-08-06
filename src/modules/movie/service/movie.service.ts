@@ -5,13 +5,16 @@ import { ListMoviesDto } from "../dto/list-movies.dto";
 import { MovieGenre } from "../enum/genre.enum";
 import { Types } from "mongoose";
 import { RatedlistService } from "src/modules/rated-list/service/rated-list.service";
+import { Cache } from "cache-manager";
+import { CACHE_MANAGER } from "@nestjs/cache-manager";
 
 @Injectable()
 export class MovieService {
   constructor(
     private readonly movieRepository: MovieRepository,
     @Inject(forwardRef(() => RatedlistService))
-    private readonly rateListService: RatedlistService
+    private readonly rateListService: RatedlistService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
   async createManyIfNotExists(movies: Partial<Movie>[]): Promise<number> {
@@ -32,6 +35,13 @@ export class MovieService {
     limit: number;
     totalPages: number;
   }> {
+    const cacheKey = this.getCacheKeyFromQuery(query);
+    const cached = await this.cacheManager.get(cacheKey);
+
+    if (cached) {
+      return cached as any;
+    }
+
     const _query: any = {};
     _query["$and"] = [];
 
@@ -99,6 +109,7 @@ export class MovieService {
         await this.rateListService.getMovieAverageRate(doc._id);
     }
 
+    await this.cacheManager.set(cacheKey, result, 6000000);
     return result;
   }
 
@@ -114,5 +125,16 @@ export class MovieService {
     totalPages: number;
   }> {
     return this.movieRepository.findByObjectIdsPaginated(ids, page, limit);
+  }
+
+  getCacheKeyFromQuery(query: any): string {
+    const sortedQuery = Object.keys(query)
+      .sort()
+      .reduce((obj, key) => {
+        obj[key] = query[key];
+        return obj;
+      }, {} as any);
+
+    return `movies:${JSON.stringify(sortedQuery)}`;
   }
 }
