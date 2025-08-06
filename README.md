@@ -94,5 +94,5 @@ http://localhost:8080/docs
 
 You can test the API using the official Postman collection:
 
-👉 [Click here to open Postman Collection](https://ahmedsayed1712-5849546.postman.co/workspace/My-Workspace~56646d9d-b91d-44aa-a686-1f245e94f620/collection/47381456-268faf7e-7d5f-44e7-80eb-57757a05e3fc?action=share&creator=47381456)
+👉 [Click here to open Postman Collection](https://lively-flare-406131.postman.co/workspace/Team-Workspace~9567830d-455b-4f82-83cb-9e559dc2ee26/collection/30527112-2efb71f9-d955-45d5-8b40-638c20461a5d?action=share&creator=30527112)
 
