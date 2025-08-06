@@ -7,6 +7,9 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { UserModule } from "./modules/user/user.module";
 import { AuthModule } from "./modules/user/auth/auth.module";
 import { JwtModule } from "@nestjs/jwt";
+import { MoviesModule } from "./modules/movie/movie.module";
+import { FavoritelistModule } from "./modules/favorite-list/favorite-list.module";
+import { WatchlistModule } from "./modules/whatch-list/watch-list.module";
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { JwtModule } from "@nestjs/jwt";
     TmdbIntegrationModule,
     UserModule,
     AuthModule,
+    MoviesModule,
+    FavoritelistModule,
+    WatchlistModule,
   ],
   controllers: [AppController],
   providers: [],
