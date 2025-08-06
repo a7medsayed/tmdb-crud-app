@@ -1,6 +1,6 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { ResponseModel } from './response';
-import { ResponseErrors } from './constants';
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { ResponseModel } from "./response";
+import { ResponseErrors } from "./constants";
 
 @Injectable()
 export class InvalidParamsResponse extends ResponseModel<any> {
@@ -10,7 +10,7 @@ export class InvalidParamsResponse extends ResponseModel<any> {
       false,
       ResponseErrors.UNPROCESSABLE_ENTITY,
       null,
-      feedback,
+      feedback
     );
   }
 }

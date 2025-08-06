@@ -1,5 +1,5 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { ResponseModel } from './response';
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { ResponseModel } from "./response";
 
 @Injectable()
 export class SuccessResponse extends ResponseModel<any> {
